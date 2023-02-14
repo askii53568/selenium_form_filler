@@ -39,14 +39,14 @@ saved_shortlist = saved_heading.find_element("xpath","./../..")
 jobs = driver.find_elements("xpath", "//a[@data-testid='apply-button-link']")
 for job in jobs:
     driver.get(job.get_attribute("href"))
-    #waits to load all the job details 
+    #waits to load all the job details
     WebDriverWait(driver=driver, timeout=30).until(EC.visibility_of_element_located(("xpath","//div[@data-testid='apply-content']/*")))
     try:
         #Finds the div with "Apply on ___" 
         element = driver.find_element("xpath","//*[contains(text(), 'Or apply on')]")
         #Finds the hyoerlink of the application website within the div
-        website_link = element.find_element("xpath",".//a").get_attribute("href")
-        driver.get(website_link)
+        website_link = element.find_element("xpath",".//a")
+        driver.get(website_link.get_attribute("href"))
     except NoSuchElementException:
         apply_button = driver.find_element("xpath", "//button[@data-testid='apply-modal-external-button']")
         apply_button.click()
