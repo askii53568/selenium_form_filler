@@ -17,6 +17,8 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chro
 
 email = "diana.suankulova@gmail.com"
 password = "U2sdqMqjR#7-Twu"
+first_name = "Diana"
+last_name = "Suankulova"
 
 #open otta.com
 driver.get("http://app.otta.com/login")
@@ -36,20 +38,31 @@ saved_shortlist = saved_heading.find_element("xpath","./../..")
 #Find immediately available saved jobs
 #saved_jobs = saved_shortlist.find_elements("xpath", "p[@data-testid='job-company-name']")
 #Find all apply links
-jobs = driver.find_elements("xpath", "//a[@data-testid='apply-button-link']")
-for job in jobs:
-    driver.get(job.get_attribute("href"))
+apply_buttons = driver.find_elements("xpath", "//button[@data-testid='apply-button']")
+for apply_button in apply_buttons:
+    apply_button.click()
     #waits to load all the job details
-    WebDriverWait(driver=driver, timeout=30).until(EC.visibility_of_element_located(("xpath","//div[@data-testid='apply-content']/*")))
+    #we do this by making sure any paragraphs within the apply-content div are loaded
+    #the assumption is that if a paragraph within the div is loaded, the rest of the content is loaded too
+    WebDriverWait(driver=driver, timeout=30).until(EC.visibility_of_element_located(("xpath","//div[@data-testid='apply-content']//p")))
     try:
         #Finds the div with "Apply on ___" 
         element = driver.find_element("xpath","//*[contains(text(), 'Or apply on')]")
         #Finds the hyoerlink of the application website within the div
         website_link = element.find_element("xpath",".//a")
-        driver.get(website_link.get_attribute("href"))
+        link = website_link.get_attribute("href")
+        #if the job listing is on workable, then we will see 2 tabs, one with the listing and the other with 
+        #the application form. the application form is accessable via /apply
+        #the <a> tag coming from otta will have source=Otta attached to the href by default
+        #we replace that with "apply/" to automatically access the form
+        if "workable" in link:
+            driver.get(link.replace("?utm_source=Otta","apply/"))
+        else:
+            driver.get(website_link.get_attribute("href"))
     except NoSuchElementException:
         apply_button = driver.find_element("xpath", "//button[@data-testid='apply-modal-external-button']")
         apply_button.click()
+    
 
           
 driver.close()
