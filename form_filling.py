@@ -25,10 +25,10 @@ driver.get("https://apply.workable.com/starling-bank/j/29599F93AF/apply/")
 WebDriverWait(driver=driver, timeout=10).until(
     lambda x: x.execute_script("return document.readyState === 'complete'"))
 try: 
-    name_input = driver.find_element("xpath","//input[contains(@id | @name,'first')]")
-    surname_input = driver.find_element("xpath","//input[contains(@id | @name,'last')]")
-    email_input = driver.find_element("xpath","//input[contains(@id | @name,'email')]")
-    phone_input = driver.find_element("xpath","//input[contains(@id | @name,'phone')]")
+    name_input = driver.find_element("xpath","//input[contains(@*,'first')]")
+    surname_input = driver.find_element("xpath","//input[contains(@*,'last')]")
+    email_input = driver.find_element("xpath","//input[contains(@*,'email')]")
+    phone_input = driver.find_element("xpath","//input[contains(@*,'phone')]")
     resume_input = driver.find_element("xpath","//input[contains(@*,'resume')]")
     
     name_input.send_keys(first_name) 
