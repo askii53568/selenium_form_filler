@@ -8,6 +8,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 import time
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach",True)
@@ -63,7 +65,60 @@ for apply_button in apply_buttons:
         apply_button = driver.find_element("xpath", "//button[@data-testid='apply-modal-external-button']")
         apply_button.click()
     
+options = webdriver.ChromeOptions()
+options.add_experimental_option("detach",True)
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--ignore-ssl-errors')
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=options) 
 
+first_name = "Askar"
+last_name = "Suankulova"
+email = "askar.suankulova@gmail.com"
+phone = "07508865835"
+
+driver.get("https://apply.workable.com/starling-bank/j/29599F93AF/apply/")
+
+WebDriverWait(driver=driver, timeout=10).until(
+    lambda x: x.execute_script("return document.readyState === 'complete'"))
+try: 
+    name_input = driver.find_element("xpath","//input[contains(@*,'first')]")
+except NoSuchElementException:
+    print("Cannot find NAME element")
+    name_text = driver.find_element(By.XPATH, "//p[contains(@*, 'first')]")
+    name_input = driver.find_element(By.XPATH, ".//input")
+    
+try:
+    surname_input = driver.find_element("xpath","//input[contains(@*,'last')]")
+except NoSuchElementException:
+    print("Cannot find SURNAME element") 
+    name_text = driver.find_element(By.XPATH, "//p[contains(@*, 'last')]")
+    surname_input = driver.find_element(By.XPATH, ".//input")
+    
+#Try finding email input textbox
+try:
+    email_input = driver.find_element("xpath","//input[contains(@*,'mail')]")
+except NoSuchElementException:
+#If that doesn't exist find a paragraph, label or etc with mail in it and get the input directly after it
+    print("Cannot find SURNAME element") 
+    email_text = driver.find_element(By.XPATH, "//p[contains(@*, 'mail')]")
+    email_input = driver.find_element(By.XPATH, ".//input")
+    
+try:
+    phone_input = driver.find_element("xpath","//input[contains(@*,'phone')]")
+except NoSuchElementException:
+    print("Cannot find SURNAME element") 
+    phone_text = driver.find_element(By.XPATH, "//p[contains(@*, 'phone')]")
+    phone_input = driver.find_element(By.XPATH, ".//input")
+
+    # surname_input = driver.find_element("xpath","//input[contains(@*,'last')]")
+    # email_input = driver.find_element("xpath","//input[contains(@*,'email')]")
+    # phone_input = driver.find_element("xpath","//input[contains(@*,'phone')]")
+    # resume_input = driver.find_element("xpath","//input[contains(@*,'resume')]")
+    
+    name_input.send_keys(first_name) 
+    surname_input.send_keys(last_name) 
+    email_input.send_keys(email) 
+    phone_input.send_keys(phone) 
           
 driver.close()
 
