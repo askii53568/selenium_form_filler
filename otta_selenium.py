@@ -23,7 +23,6 @@ first_name = ""
 last_name = ""
 
 #open otta.com
-driver.get("http://app.otta.com/login")
 driver.find_element("id","email").send_keys(email)
 driver.find_element("id","password").send_keys(password)
 driver.find_element("xpath",'//*[@id="root"]/div[1]/div/div/div[1]/form/div[3]/button').click()
@@ -71,12 +70,10 @@ options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=options) 
 
-first_name = "Askar"
-last_name = "Suankulova"
-email = "askar.suankulova@gmail.com"
-phone = "07508865835"
-
-driver.get("https://apply.workable.com/starling-bank/j/29599F93AF/apply/")
+first_name = ""
+last_name = ""
+email = ""
+phone = ""
 
 WebDriverWait(driver=driver, timeout=10).until(
     lambda x: x.execute_script("return document.readyState === 'complete'"))
