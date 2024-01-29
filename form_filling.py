@@ -18,11 +18,6 @@ options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=options) 
 
-first_name = "Askar"
-last_name = "Suankulova"
-email = "askar.suankulova@gmail.com"
-phone = "07508865835"
-
 driver.get("https://boards.greenhouse.io/beacon67/jobs/5509540003?gh_src=f923fec23us")
 
 WebDriverWait(driver=driver, timeout=10).until(
