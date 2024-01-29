@@ -17,10 +17,10 @@ options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=options) 
 
-email = "diana.suankulova@gmail.com"
-password = "U2sdqMqjR#7-Twu"
-first_name = "Diana"
-last_name = "Suankulova"
+email = ""
+password = ""
+first_name = ""
+last_name = ""
 
 #open otta.com
 driver.get("http://app.otta.com/login")
